@@ -1,0 +1,264 @@
+<div class="properties-page">
+  <!-- Hero Search Section -->
+  <section class="search-hero">
+    <div class="container">
+      <h1 class="search-title">Find Your Perfect Home</h1>
+      <p class="search-subtitle">Discover from over 5,000+ available properties</p>
+      
+      <div class="search-box">
+        <div class="search-main">
+          <div class="search-input-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input 
+              type="text" 
+              [(ngModel)]="searchQuery" 
+              placeholder="Search by location, property name, or address..."
+              class="search-input">
+          </div>
+          <button class="search-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Search
+          </button>
+        </div>
+        
+        <div class="search-filters">
+          <div class="filter-group">
+            <label>Property Type</label>
+            <select [(ngModel)]="selectedType">
+              <option value="">All Types</option>
+              <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Min Price</label>
+            <select [(ngModel)]="minPrice">
+              <option value="">No Min</option>
+              <option value="1000">$1,000</option>
+              <option value="1500">$1,500</option>
+              <option value="2000">$2,000</option>
+              <option value="2500">$2,500</option>
+              <option value="3000">$3,000</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Max Price</label>
+            <select [(ngModel)]="maxPrice">
+              <option value="">No Max</option>
+              <option value="2000">$2,000</option>
+              <option value="3000">$3,000</option>
+              <option value="4000">$4,000</option>
+              <option value="5000">$5,000</option>
+              <option value="10000">$10,000</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Bedrooms</label>
+            <select [(ngModel)]="bedrooms">
+              <option value="">Any</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+          
+          <button class="clear-btn" (click)="clearFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Properties -->
+  <section class="featured-section" *ngIf="!searchQuery && !selectedType">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Properties</h2>
+        <p class="section-subtitle">Hand-picked properties for you</p>
+      </div>
+      <div class="featured-grid">
+        <div class="property-card featured" *ngFor="let property of featuredProperties">
+          <div class="property-image">
+            <img [src]="property.photos && property.photos.length > 0 ? property.photos[0] : '/assets/placeholder.jpg'" 
+                 [alt]="property.reference"
+                 (error)="$event.target.src='/assets/placeholder.jpg'">
+            <span class="property-badge">Featured</span>
+            <button class="favorite-btn" (click)="toggleFavorite(property.id)" title="Add to favorites">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="property-content">
+            <div class="property-type">{{ property.type }}</div>
+            <h3 class="property-title">{{ property.reference }}</h3>
+            <p class="property-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ property.address }}, {{ property.city }}, {{ property.country }}
+            </p>
+            <div class="property-features">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/>
+                </svg>
+                {{ property.beds }} Beds
+              </span>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/>
+                  <line x1="10" x2="8" y1="5" y2="7"/>
+                  <line x1="2" x2="22" y1="12" y2="12"/>
+                  <line x1="7" x2="7" y1="19" y2="21"/>
+                  <line x1="17" x2="17" y1="19" y2="21"/>
+                </svg>
+                {{ property.bathroom }} Baths
+              </span>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                </svg>
+                {{ property.surfaceArea }} m²
+              </span>
+            </div>
+            <div class="property-footer">
+              <div class="property-price">${{ property.price.toLocaleString() }}<span>/month</span></div>
+              <a [routerLink]="['/property', property.id]" class="view-btn">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Properties Section -->
+  <section class="properties-section">
+    <div class="container">
+      <div class="properties-header">
+        <div class="results-info">
+          <h2>{{ filteredProperties.length }} Properties Found</h2>
+          <p *ngIf="searchQuery">Results for "{{ searchQuery }}"</p>
+        </div>
+        <div class="view-controls">
+          <button 
+            class="view-btn-toggle" 
+            [class.active]="viewMode === 'grid'"
+            (click)="setViewMode('grid')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </button>
+          <button 
+            class="view-btn-toggle" 
+            [class.active]="viewMode === 'list'"
+            (click)="setViewMode('list')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"/>
+              <line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="properties-grid" [class.list-view]="viewMode === 'list'">
+        <div class="property-card" *ngFor="let property of filteredProperties" [class.list-item]="viewMode === 'list'">
+          <div class="property-image">
+            <img [src]="property.photos && property.photos.length > 0 ? property.photos[0] : '/assets/placeholder.jpg'" 
+                 [alt]="property.reference"
+                 (error)="$event.target.src='/assets/placeholder.jpg'">
+            <span class="property-badge" *ngIf="property.featured">Featured</span>
+            <span class="availability-badge" [class.available]="property.isAvailable">
+              {{ property.isAvailable ? 'Available' : 'Rented' }}
+            </span>
+            <button class="favorite-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="property-content">
+            <div class="property-type">{{ property.type }}</div>
+            <h3 class="property-title">{{ property.reference }}</h3>
+            <p class="property-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ property.address }}, {{ property.city }}, {{ property.country }}
+            </p>
+            <div class="property-features">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/>
+                </svg>
+                {{ property.beds }} Beds
+              </span>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/>
+                  <line x1="10" x2="8" y1="5" y2="7"/>
+                  <line x1="2" x2="22" y1="12" y2="12"/>
+                  <line x1="7" x2="7" y1="19" y2="21"/>
+                  <line x1="17" x2="17" y1="19" y2="21"/>
+                </svg>
+                {{ property.bathroom }} Baths
+              </span>
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                </svg>
+                {{ property.surfaceArea }} m²
+              </span>
+              <span *ngIf="property.garage > 0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"/>
+                </svg>
+                {{ property.garage }} Garage
+              </span>
+            </div>
+            <div class="property-footer">
+              <div class="property-price">${{ property.price.toLocaleString() }}<span>/month</span></div>
+              <a [routerLink]="['/property', property.id]" class="view-btn">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-results" *ngIf="filteredProperties.length === 0">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          <line x1="8" y1="8" x2="14" y2="14"/>
+          <line x1="14" y1="8" x2="8" y2="14"/>
+        </svg>
+        <h3>No Properties Found</h3>
+        <p>Try adjusting your search filters to find more properties.</p>
+        <button class="btn btn-primary" (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+  </section>
+</div>

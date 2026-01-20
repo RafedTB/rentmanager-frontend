@@ -1,0 +1,1588 @@
+<div class="landlord-dashboard">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a routerLink="/" class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+          <path
+            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+        </svg>
+        <span>RentManager</span>
+      </a>
+      <button class="mobile-toggle" (click)="toggleSidebarMobile()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <span>Home Page</span>
+      </a>
+
+      <button class="nav-item" [class.active]="activeSection === 'dashboard'" (click)="setActiveSection('dashboard')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="nav-item" [class.active]="activeSection === 'properties'" (click)="setActiveSection('properties')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        </svg>
+        <span>My Properties</span>
+      </button>
+
+      <button class="nav-item" [class.active]="activeSection === 'payments'" (click)="setActiveSection('payments')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+          <line x1="1" y1="10" x2="23" y2="10" />
+        </svg>
+        <span>Payments</span>
+      </button>
+
+      <button class="nav-item" [class.active]="activeSection === 'maintenance'"
+        (click)="setActiveSection('maintenance')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+        <span>Maintenance</span>
+      </button>
+
+      <button class="nav-item" [class.active]="activeSection === 'tenants'" (click)="setActiveSection('tenants')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        <span>Tenants</span>
+      </button>
+
+      <button class="nav-item" [class.active]="activeSection === 'messages'" (click)="setActiveSection('messages')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span>Messages</span>
+        <span class="badge" *ngIf="unreadMessagesCount > 0">{{ unreadMessagesCount }}</span>
+      </button>
+
+      <button class="nav-item" [class.active]="activeSection === 'rental-requests'" (click)="setActiveSection('rental-requests')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14,2 14,8 20,8" />
+        </svg>
+        <span>Rental Requests</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Overview Section -->
+    <div *ngIf="activeSection === 'dashboard'" class="content-section">
+      <div class="section-header">
+        <h1>Dashboard Overview</h1>
+        <p class="section-subtitle">Welcome back, {{ landlordName }}</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <p class="stat-label">Total Properties</p>
+            <h2 class="stat-value">{{ stats.totalProperties }}</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <p class="stat-label">Occupied</p>
+            <h2 class="stat-value">{{ stats.occupiedProperties }}</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <p class="stat-label">Vacant</p>
+            <h2 class="stat-value">{{ stats.vacantProperties }}</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <p class="stat-label">Total Revenue</p>
+            <h2 class="stat-value">${{ stats.totalRevenue }}</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon yellow">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <p class="stat-label">Pending Payments</p>
+            <h2 class="stat-value">{{ stats.pendingPayments }}</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon red">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <p class="stat-label">Maintenance Requests</p>
+            <h2 class="stat-value">{{ stats.maintenanceRequests }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="activity-section">
+        <h2>Recent Payments</h2>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tenant</th>
+                <th>Property</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of payments.slice(0, 5)">
+                <td>{{ getPaymentTenantName(payment) }}</td>
+                <td>{{ getPaymentPropertyAddress(payment) }}</td>
+                <td class="amount">${{ payment.amount }}</td>
+                <td>{{ payment.createdAt | date:'short' }}</td>
+                <td><span class="badge" [ngClass]="getStatusClass(payment.status)">{{ payment.status }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Properties List Section -->
+    <div *ngIf="activeSection === 'properties'" class="content-section">
+      <div class="section-header">
+        <h1>My Properties</h1>
+        <p class="section-subtitle">Manage all your properties</p>
+        <button class="btn-primary" (click)="openAddPropertyModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Add Property
+        </button>
+      </div>
+
+      <div class="properties-grid" *ngIf="properties.length > 0">
+        <div *ngFor="let property of properties" class="property-card">
+          <div class="property-image" [style.background-image]="getPropertyImageUrl(property)">
+          </div>
+          <div class="property-content">
+            <div class="property-header">
+              <h3>{{ property.reference }}</h3>
+              <span class="badge" [ngClass]="getStatusClass(property.status)">{{ property.status }}</span>
+            </div>
+            <p class="property-address">{{ property.address }}, {{ property.city }}</p>
+            <div class="property-specs">
+              <span><strong>{{ property.beds }}</strong> Beds</span>
+              <span><strong>{{ property.bathroom }}</strong> Bath</span>
+              <span><strong>{{ property.surfaceArea }}</strong> m²</span>
+            </div>
+            <div class="property-footer">
+              <span class="property-price">${{ property.price }}/mo</span>
+              <div class="property-actions">
+                <button class="btn-icon" (click)="editProperty(property)">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </button>
+                <button class="btn-icon danger" (click)="deleteProperty(property.id)">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="properties.length === 0" class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <h3>No Properties Found</h3>
+        <p>You haven't added any properties yet. Click the "Add Property" button to get started.</p>
+        <button class="btn-primary" (click)="openAddPropertyModal()" style="margin-top: 1rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Add Your First Property
+        </button>
+      </div>
+    </div>
+
+    <!-- Rental Requests Section -->
+    <div *ngIf="activeSection === 'rental-requests'" class="content-section">
+      <div class="section-header">
+        <h1>Rental Requests</h1>
+        <p class="section-subtitle">Manage rental applications and requests</p>
+      </div>
+
+      <!-- Rental Requests List -->
+      <div class="table-container" *ngIf="rentalRequests.length > 0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Tenant</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Requested Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of rentalRequests">
+              <td>{{ getPropertyAddress(request.propertyId) }}</td>
+              <td>{{ getTenantNameById(request.tenantId) }}</td>
+              <td>{{ request.message || 'No message' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getRentalRequestStatusClass(request.status)">
+                  {{ request.status }}
+                </span>
+              </td>
+              <td>{{ request.requestedDate | date:'short' }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button *ngIf="request.status === RentalRequestStatus.PENDING"
+                          class="btn-sm success"
+                          (click)="approveRentalRequest(request)">
+                    Approve
+                  </button>
+                  <button *ngIf="request.status === RentalRequestStatus.PENDING"
+                          class="btn-sm danger"
+                          (click)="rejectRentalRequest(request)">
+                    Reject
+                  </button>
+                  <button class="btn-sm" (click)="viewRentalRequest(request)">
+                    View
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="rentalRequests.length === 0" class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14,2 14,8 20,8" />
+        </svg>
+        <h3>No Rental Requests</h3>
+        <p>You don't have any rental requests yet. They will appear here when tenants apply for your properties.</p>
+      </div>
+    </div>
+
+    <!-- Payments Section -->
+    <div *ngIf="activeSection === 'payments'" class="content-section">
+      <div class="section-header">
+        <div>
+          <h1>Payments</h1>
+          <p class="section-subtitle">Track all rental payments</p>
+        </div>
+        <button class="btn-primary" (click)="openRecordPaymentModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Record Payment
+        </button>
+      </div>
+
+      <!-- Payment Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" placeholder="Search payments by tenant or property..." [(ngModel)]="paymentSearchQuery">
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-btn" [class.active]="paymentFilter === 'all'" (click)="setPaymentFilter('all')">
+            All ({{ payments.length }})
+          </button>
+          <button class="filter-btn" [class.active]="paymentFilter === 'completed'"
+            (click)="setPaymentFilter('completed')">
+            Completed ({{ getCompletedPayments().length }})
+          </button>
+          <button class="filter-btn" [class.active]="paymentFilter === 'pending'" (click)="setPaymentFilter('pending')">
+            Pending ({{ getPendingPayments().length }})
+          </button>
+          <button class="filter-btn" [class.active]="paymentFilter === 'overdue'" (click)="setPaymentFilter('overdue')">
+            Overdue ({{ getOverduePayments().length }})
+          </button>
+        </div>
+      </div>
+
+      <!-- Payments Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Payment ID</th>
+              <th>Tenant</th>
+              <th>Property</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let payment of getPaginatedPayments()">
+              <td><strong>#{{ payment.id }}</strong></td>
+              <td>
+                <div class="table-cell-content">
+                  <div class="tenant-avatar-small">{{ getPaymentTenantName(payment).charAt(0) }}</div>
+                  <span>{{ getPaymentTenantName(payment) }}</span>
+                </div>
+              </td>
+              <td>{{ getPaymentPropertyAddress(payment) }}</td>
+              <td class="amount"><strong>${{ payment.amount.toLocaleString() }}</strong></td>
+              <td>{{ payment.createdAt | date:'MMM d, y' }}</td>
+              <td>
+                <span class="badge" [class.status-success]="payment.status === PaymentStatus.COMPLETED"
+                  [class.status-warning]="payment.status === PaymentStatus.PENDING && !isPaymentOverdue(payment)"
+                  [class.status-error]="isPaymentOverdue(payment)">
+                  {{ payment.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon" title="View Details" (click)="viewPaymentDetails(payment.id)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                  <button class="btn-icon" title="Download Receipt" (click)="downloadReceipt(payment.id)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </button>
+                  <button class="btn-icon" *ngIf="payment.status === PaymentStatus.PENDING" title="Mark as Paid"
+                    (click)="markAsPaid(payment.id)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="getFilteredPaymentsCount() > 0" class="pagination-container">
+        <div class="pagination-info">
+          Showing {{ ((paymentCurrentPage - 1) * paymentItemsPerPage) + 1 }}
+          to {{ Math.min(paymentCurrentPage * paymentItemsPerPage, getFilteredPaymentsCount()) }}
+          of {{ getFilteredPaymentsCount() }} payments
+        </div>
+        <div class="pagination">
+          <button class="pagination-btn" [disabled]="paymentCurrentPage === 1" (click)="previousPaymentPage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Previous
+          </button>
+
+          <div class="pagination-numbers">
+            <button *ngFor="let page of getPaymentPageNumbers()" class="pagination-number"
+              [class.active]="page === paymentCurrentPage" (click)="goToPaymentPage(page)">
+              {{ page }}
+            </button>
+          </div>
+
+          <button class="pagination-btn" [disabled]="paymentCurrentPage === getPaymentTotalPages()"
+            (click)="nextPaymentPage()">
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="getPaginatedPayments().length === 0" class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+          <line x1="1" y1="10" x2="23" y2="10" />
+        </svg>
+        <h3>No payments found</h3>
+        <p>{{ paymentSearchQuery ? 'Try adjusting your search criteria' : 'No payments match the selected filter' }}</p>
+      </div>
+
+      <!-- Payment Summary Cards -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <div class="summary-content">
+            <h4>Total Collected</h4>
+            <p class="summary-value">${{ getTotalCollected().toLocaleString() }}</p>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon orange">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div class="summary-content">
+            <h4>Pending Payments</h4>
+            <p class="summary-value">${{ getTotalPending().toLocaleString() }}</p>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon red">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <div class="summary-content">
+            <h4>Overdue Payments</h4>
+            <p class="summary-value">${{ getTotalOverdue().toLocaleString() }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maintenance Requests Section -->
+    <div *ngIf="activeSection === 'maintenance'" class="content-section">
+      <div class="section-header">
+        <div>
+          <h1>Maintenance Requests</h1>
+          <p class="section-subtitle">Manage property maintenance</p>
+        </div>
+        <button class="btn-primary" (click)="openAddMaintenanceModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          New Request
+        </button>
+      </div>
+
+      <!-- Maintenance Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" placeholder="Search by property, title, or tenant..." [(ngModel)]="maintenanceSearchQuery">
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-btn" [class.active]="maintenanceStatusFilter === 'all'"
+            (click)="setMaintenanceStatusFilter('all')">
+            All ({{ maintenanceRequests.length }})
+          </button>
+          <button class="filter-btn" [class.active]="maintenanceStatusFilter === 'PENDING'"
+            (click)="setMaintenanceStatusFilter('PENDING')">
+            Pending ({{ getPendingMaintenance().length }})
+          </button>
+          <button class="filter-btn" [class.active]="maintenanceStatusFilter === 'IN_PROGRESS'"
+            (click)="setMaintenanceStatusFilter('IN_PROGRESS')">
+            In Progress ({{ getInProgressMaintenance().length }})
+          </button>
+          <button class="filter-btn" [class.active]="maintenanceStatusFilter === 'COMPLETED'"
+            (click)="setMaintenanceStatusFilter('COMPLETED')">
+            Completed ({{ getCompletedMaintenance().length }})
+          </button>
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-btn" [class.active]="maintenancePriorityFilter === 'all'"
+            (click)="setMaintenancePriorityFilter('all')">
+            All Priority
+          </button>
+          <button class="filter-btn priority-high" [class.active]="maintenancePriorityFilter === 'HIGH'"
+            (click)="setMaintenancePriorityFilter('HIGH')">
+            High
+          </button>
+          <button class="filter-btn priority-medium" [class.active]="maintenancePriorityFilter === 'MEDIUM'"
+            (click)="setMaintenancePriorityFilter('MEDIUM')">
+            Medium
+          </button>
+          <button class="filter-btn priority-low" [class.active]="maintenancePriorityFilter === 'LOW'"
+            (click)="setMaintenancePriorityFilter('LOW')">
+            Low
+          </button>
+        </div>
+      </div>
+
+      <!-- Maintenance Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Property</th>
+              <th>Title</th>
+              <th>Tenant</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of getFilteredMaintenance()">
+              <td><strong>#{{ request.id }}</strong></td>
+              <td>{{ request.property }}</td>
+              <td>{{ request.title }}</td>
+              <td>
+                <div class="table-cell-content">
+                  <div class="tenant-avatar-small">{{ request.tenant ? request.tenant.charAt(0) : '?' }}</div>
+                  <span>{{ request.tenant || 'Unknown' }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="badge" [class.priority-high]="request.priority === MaintenancePriority.HIGH"
+                  [class.priority-medium]="request.priority === MaintenancePriority.MEDIUM"
+                  [class.priority-low]="request.priority === MaintenancePriority.LOW">
+                  {{ request.priority }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [class.status-warning]="request.status === MaintenanceStatus.PENDING"
+                  [class.status-info]="request.status === MaintenanceStatus.IN_PROGRESS"
+                  [class.status-success]="request.status === MaintenanceStatus.COMPLETED">
+                  {{ request.status }}
+                </span>
+              </td>
+              <td>{{ request.date | date:'MMM d, y' }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon" title="View Details" (click)="viewMaintenanceDetails(request.id)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                  <button class="btn-icon" *ngIf="request.status === MaintenanceStatus.PENDING" title="Start Work"
+                    (click)="startMaintenance(request.id)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                  </button>
+                  <button class="btn-icon" *ngIf="request.status === MaintenanceStatus.IN_PROGRESS"
+                    title="Mark Complete" (click)="completeMaintenance(request.id)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Maintenance Pagination -->
+      <div *ngIf="getFilteredMaintenanceCount() > 0" class="pagination-container">
+        <div class="pagination-info">
+          Showing {{ ((maintenanceCurrentPage - 1) * maintenanceItemsPerPage) + 1 }}
+          to {{ Math.min(maintenanceCurrentPage * maintenanceItemsPerPage, getFilteredMaintenanceCount()) }}
+          of {{ getFilteredMaintenanceCount() }} requests
+        </div>
+        <div class="pagination">
+          <button class="pagination-btn" [disabled]="maintenanceCurrentPage === 1" (click)="previousMaintenancePage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Previous
+          </button>
+
+          <div class="pagination-numbers">
+            <button *ngFor="let page of getMaintenancePageNumbers()" class="pagination-number"
+              [class.active]="page === maintenanceCurrentPage" (click)="goToMaintenancePage(page)">
+              {{ page }}
+            </button>
+          </div>
+
+          <button class="pagination-btn" [disabled]="maintenanceCurrentPage === getMaintenanceTotalPages()"
+            (click)="nextMaintenancePage()">
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="getFilteredMaintenance().length === 0" class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path
+            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+        <h3>No maintenance requests found</h3>
+        <p>{{ maintenanceSearchQuery ? 'Try adjusting your search criteria' : 'No requests match the selected filters'
+          }}</p>
+      </div>
+    </div>
+
+    <!-- Tenants Section -->
+    <div *ngIf="activeSection === 'tenants'" class="content-section">
+      <div class="section-header">
+        <div>
+          <h1>Tenants</h1>
+          <p class="section-subtitle">Manage your tenants</p>
+        </div>
+        <button class="btn-primary" (click)="openAddTenantModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Add Tenant
+        </button>
+      </div>
+
+      <!-- Tenant Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" placeholder="Search tenants by name, email, or property..."
+            [(ngModel)]="tenantSearchQuery">
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-btn" [class.active]="tenantFilter === 'all'" (click)="setTenantFilter('all')">
+            All ({{ tenants.length }})
+          </button>
+          <button class="filter-btn" [class.active]="tenantFilter === 'current'" (click)="setTenantFilter('current')">
+            Current ({{ getCurrentTenants().length }})
+          </button>
+          <button class="filter-btn" [class.active]="tenantFilter === 'pending'" (click)="setTenantFilter('pending')">
+            Pending ({{ getPendingTenants().length }})
+          </button>
+          <button class="filter-btn" [class.active]="tenantFilter === 'overdue'" (click)="setTenantFilter('overdue')">
+            Overdue ({{ getOverdueTenants().length }})
+          </button>
+        </div>
+      </div>
+
+      <!-- Tenants Grid -->
+      <div class="tenants-grid">
+        <div *ngFor="let tenant of getFilteredTenants()" class="tenant-card-enhanced">
+          <div class="tenant-card-header">
+            <div class="tenant-avatar-large">{{ tenant.initials }}</div>
+            <div class="tenant-info">
+              <h3>{{ tenant.name }}</h3>
+              <p class="tenant-email">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                {{ tenant.email }}
+              </p>
+            </div>
+            <div class="tenant-status">
+              <span class="badge" [class.status-success]="tenant.paymentStatus === 'Current'"
+                [class.status-warning]="tenant.paymentStatus === 'Pending'"
+                [class.status-error]="tenant.paymentStatus === 'Overdue'">
+                {{ tenant.paymentStatus }}
+              </span>
+            </div>
+          </div>
+
+          <div class="tenant-card-body">
+            <div class="tenant-detail-row">
+              <div class="detail-col">
+                <span class="detail-label">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  </svg>
+                  Property
+                </span>
+                <span class="detail-value">{{ tenant.property }}</span>
+              </div>
+              <div class="detail-col">
+                <span class="detail-label">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                    <line x1="1" y1="10" x2="23" y2="10" />
+                  </svg>
+                  Monthly Rent
+                </span>
+                <span class="detail-value rent-amount">${{ tenant.rent }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tenant-card-footer">
+            <button class="btn-secondary-small" (click)="viewTenantDetails(tenant.id)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              View Details
+            </button>
+            <button class="btn-secondary-small" (click)="contactTenant(tenant.id)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Message
+            </button>
+            <button class="btn-secondary-small" (click)="editTenant(tenant.id)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tenants Pagination -->
+      <div *ngIf="getFilteredTenantsCount() > 0" class="pagination-container">
+        <div class="pagination-info">
+          Showing {{ ((tenantCurrentPage - 1) * tenantItemsPerPage) + 1 }}
+          to {{ Math.min(tenantCurrentPage * tenantItemsPerPage, getFilteredTenantsCount()) }}
+          of {{ getFilteredTenantsCount() }} tenants
+        </div>
+        <div class="pagination">
+          <button class="pagination-btn" [disabled]="tenantCurrentPage === 1" (click)="previousTenantPage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Previous
+          </button>
+
+          <div class="pagination-numbers">
+            <button *ngFor="let page of getTenantPageNumbers()" class="pagination-number"
+              [class.active]="page === tenantCurrentPage" (click)="goToTenantPage(page)">
+              {{ page }}
+            </button>
+          </div>
+
+          <button class="pagination-btn" [disabled]="tenantCurrentPage === getTenantTotalPages()"
+            (click)="nextTenantPage()">
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="getFilteredTenants().length === 0" class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        <h3>No tenants found</h3>
+        <p>{{ tenantSearchQuery ? 'Try adjusting your search criteria' : 'Add your first tenant to get started' }}</p>
+      </div>
+    </div>
+
+    <!-- Messages Section -->
+    <div *ngIf="activeSection === 'messages'" class="content-section">
+      <div class="section-header">
+        <h1>Messages</h1>
+        <p class="section-subtitle">Communications from tenants and admin</p>
+      </div>
+
+      <div class="messages-container">
+        <div class="messages-list">
+          <div *ngFor="let message of messages" class="message-item" [class.unread]="!message.read"
+            (click)="selectMessage(message)">
+            <div class="message-avatar">{{ message.senderInitials || (message.senderName ? message.senderName.charAt(0).toUpperCase() : '?') }}</div>
+            <div class="message-content">
+              <div class="message-header">
+                <div class="message-sender">
+                  <strong>{{ message.senderName }}</strong>
+                  <span class="message-role" [class.admin]="message.senderRole === 'ADMIN'" *ngIf="message.senderRole">
+                    {{ message.senderRole }}
+                  </span>
+                </div>
+                <span class="message-time">{{ message.sentAt | date:'short' }}</span>
+              </div>
+              <div class="message-subject">{{ message.subject }}</div>
+              <div class="message-preview">{{ message.content }}</div>
+              <div class="message-property" *ngIf="message.propertyReference">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                </svg>
+                {{ message.propertyReference }}
+              </div>
+            </div>
+            <div class="message-actions">
+              <button class="icon-btn" (click)="markAsRead(message); $event.stopPropagation()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+              <button class="icon-btn" (click)="deleteMessage(message); $event.stopPropagation()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add Property Modal -->
+<div class="modal-overlay" *ngIf="showAddPropertyModal" (click)="closeAddPropertyModal()">
+  <div class="modal-content large" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Add New Property</h2>
+      <button class="modal-close" (click)="closeAddPropertyModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveProperty()">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Property Reference *</label>
+            <input type="text" [(ngModel)]="newProperty.reference" name="reference" placeholder="REF-2026-001" required>
+          </div>
+
+          <div class="form-group">
+            <label>Property Type *</label>
+            <select [(ngModel)]="newProperty.type" name="type" required>
+              <option value="">Select Type</option>
+              <option value="APARTMENT">Apartment</option>
+              <option value="HOUSE">House</option>
+              <option value="CONDO">Condo</option>
+              <option value="VILLA">Villa</option>
+              <option value="STUDIO">Studio</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Address *</label>
+            <input type="text" [(ngModel)]="newProperty.address" name="address" placeholder="123 Main Street" required>
+          </div>
+
+          <div class="form-group">
+            <label>City *</label>
+            <input type="text" [(ngModel)]="newProperty.city" name="city" placeholder="New York" required>
+          </div>
+
+          <div class="form-group">
+            <label>Country *</label>
+            <input type="text" [(ngModel)]="newProperty.country" name="country" placeholder="USA" required>
+          </div>
+
+          <div class="form-group">
+            <label>Bedrooms *</label>
+            <input type="number" [(ngModel)]="newProperty.beds" name="beds" min="0" placeholder="2" required>
+          </div>
+
+          <div class="form-group">
+            <label>Bathrooms *</label>
+            <input type="number" [(ngModel)]="newProperty.bathroom" name="bathroom" min="0" step="0.5" placeholder="1"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label>Surface Area (m²) *</label>
+            <input type="number" [(ngModel)]="newProperty.surfaceArea" name="surfaceArea" min="1" placeholder="85"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label>Rent Amount ($) *</label>
+            <input type="number" [(ngModel)]="newProperty.price" name="price" min="0" placeholder="2500" required>
+          </div>
+
+          <div class="form-group">
+            <label>Rent Period *</label>
+            <select [(ngModel)]="newProperty.rentPeriod" name="rentPeriod" required>
+              <option value="monthly">Monthly</option>
+              <option value="daily">Daily</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Garage Spaces *</label>
+            <input type="number" [(ngModel)]="newProperty.garage" name="garage" min="0" placeholder="1" required>
+          </div>
+
+          <div class="form-group">
+            <label>Construction Year *</label>
+            <input type="number" [(ngModel)]="newProperty.constructionYear" name="constructionYear" min="1800"
+              max="2026" placeholder="2020" required>
+          </div>
+
+          <div class="form-group">
+            <label>Status *</label>
+            <select [(ngModel)]="newProperty.status" name="status" required>
+              <option value="">Select Status</option>
+              <option value="AVAILABLE">Available</option>
+              <option value="RENTED">Rented</option>
+              <option value="MAINTENANCE">Maintenance</option>
+            </select>
+          </div>
+
+          <!-- Photo Upload Section -->
+          <div class="form-group full-width">
+            <label class="required-label">Photos de la propriété * (Min: 1, Max: 8)</label>
+            <div class="photo-upload-container">
+              <div class="upload-area">
+                <input type="file" #fileInput id="photoInput" accept="image/*" multiple
+                  (change)="handleFileInput($event)" style="display: none;" required>
+                <button type="button" class="btn btn-upload" (click)="fileInput.click()"
+                  [disabled]="selectedPhotos.length >= 8">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                  Télécharger des photos
+                </button>
+                <p class="upload-hint">{{ selectedPhotos.length }} / 8 photos sélectionnées</p>
+              </div>
+
+              <!-- Photo Preview Gallery -->
+              <div class="photo-preview-grid" *ngIf="selectedPhotos.length > 0">
+                <div class="photo-preview-item" *ngFor="let photo of selectedPhotos; let i = index">
+                  <img [src]="photo.preview" [alt]="'Photo ' + (i + 1)">
+                  <button type="button" class="remove-photo-btn" (click)="removePhoto(i)" title="Supprimer cette photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                  <span class="photo-number">{{ i + 1 }}</span>
+                </div>
+              </div>
+
+              <!-- Error Message -->
+              <div class="error-message" *ngIf="photoError">
+                {{ photoError }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Description *</label>
+            <textarea [(ngModel)]="newProperty.description" name="description" rows="4"
+              placeholder="Enter property description..." required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeAddPropertyModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Property</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Tenant Modal -->
+<div class="modal-overlay" *ngIf="showAddTenantModal" (click)="closeAddTenantModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Add New Tenant</h2>
+      <button class="modal-close" (click)="closeAddTenantModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveTenant()">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" [(ngModel)]="newTenant.firstName" name="firstName" placeholder="John" required>
+          </div>
+
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" [(ngModel)]="newTenant.lastName" name="lastName" placeholder="Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" [(ngModel)]="newTenant.email" name="email" placeholder="john.doe@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" [(ngModel)]="newTenant.phone" name="phone" placeholder="+1 234 567 8900">
+          </div>
+
+          <div class="form-group">
+            <label>Property *</label>
+            <select [(ngModel)]="newTenant.propertyId" name="propertyId" required>
+              <option value="">Select Property</option>
+              <option *ngFor="let prop of properties" [value]="prop.id">
+                {{ prop.reference }} - {{ prop.address }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeAddTenantModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Tenant</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Record Payment Modal -->
+<div class="modal-overlay" *ngIf="showRecordPaymentModal" (click)="closeRecordPaymentModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Record Payment</h2>
+      <button class="modal-close" (click)="closeRecordPaymentModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <form (ngSubmit)="savePayment()">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Tenant *</label>
+            <select [(ngModel)]="newPayment.tenantId" name="tenantId" required>
+              <option value="">Select Tenant</option>
+              <option *ngFor="let tenant of tenants" [value]="tenant.id">
+                {{ getTenantName(tenant) }} - {{ getTenantProperty(tenant)?.reference || 'N/A' }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Property *</label>
+            <select [(ngModel)]="newPayment.propertyId" name="propertyId" required>
+              <option value="">Select Property</option>
+              <option *ngFor="let prop of properties" [value]="prop.id">
+                {{ prop.reference }} - {{ prop.address }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Amount ($) *</label>
+            <input type="number" [(ngModel)]="newPayment.amount" name="amount" min="0" step="0.01" placeholder="2500.00"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label>Payment Date *</label>
+            <input type="date" [(ngModel)]="newPayment.date" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label>Payment Method *</label>
+            <select [(ngModel)]="newPayment.method" name="method" required>
+              <option [value]="PaymentMethod.BANK_TRANSFER">Bank Transfer</option>
+              <option [value]="PaymentMethod.CASH">Cash</option>
+              <option [value]="PaymentMethod.CREDIT_CARD">Credit Card</option>
+              <option [value]="PaymentMethod.DEBIT_CARD">Debit Card</option>
+              <option [value]="PaymentMethod.PAYPAL">PayPal</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeRecordPaymentModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Record Payment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- View Payment Details Modal -->
+<div class="modal-overlay" *ngIf="showViewPaymentModal" (click)="closeViewPaymentModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Payment Details</h2>
+      <button class="modal-close" (click)="closeViewPaymentModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedPayment">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Payment ID</span>
+          <span class="detail-value">#{{ selectedPayment.id }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Tenant</span>
+          <span class="detail-value">{{ getPaymentTenantName(selectedPayment) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Property</span>
+          <span class="detail-value">{{ getPaymentPropertyAddress(selectedPayment) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Amount</span>
+          <span class="detail-value amount">${{ selectedPayment.amount }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Date</span>
+          <span class="detail-value">{{ (selectedPayment.paidDate || selectedPayment.createdAt) | date:'fullDate' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Status</span>
+          <span class="badge" [class.status-success]="selectedPayment.status === PaymentStatus.COMPLETED"
+            [class.status-warning]="selectedPayment.status === PaymentStatus.PENDING && !isPaymentOverdue(selectedPayment)"
+            [class.status-error]="isPaymentOverdue(selectedPayment)">
+            {{ selectedPayment.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="closeViewPaymentModal()">Close</button>
+      <button type="button" class="btn btn-primary" (click)="downloadReceipt(selectedPayment!.id)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Download Receipt
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- View Tenant Details Modal -->
+<div class="modal-overlay" *ngIf="showViewTenantModal" (click)="closeViewTenantModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Tenant Details</h2>
+      <button class="modal-close" (click)="closeViewTenantModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedTenant">
+      <div class="tenant-profile">
+        <div class="tenant-avatar-xlarge">{{ selectedTenant.initials }}</div>
+        <h3>{{ selectedTenant.name }}</h3>
+        <p class="tenant-email-display">{{ selectedTenant.email }}</p>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Property</span>
+          <span class="detail-value">{{ selectedTenant.property }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Monthly Rent</span>
+          <span class="detail-value amount">${{ selectedTenant.rent }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Payment Status</span>
+          <span class="badge" [class.status-success]="selectedTenant.paymentStatus === 'Current'"
+            [class.status-warning]="selectedTenant.paymentStatus === 'Pending'"
+            [class.status-error]="selectedTenant.paymentStatus === 'Overdue'">
+            {{ selectedTenant.paymentStatus }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline danger" (click)="deleteTenant(selectedTenant!.id)">Delete</button>
+      <button type="button" class="btn btn-outline" (click)="closeViewTenantModal()">Close</button>
+      <button type="button" class="btn btn-primary"
+        (click)="closeViewTenantModal(); editTenant(selectedTenant!.id)">Edit Tenant</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Tenant Modal -->
+<div class="modal-overlay" *ngIf="showEditTenantModal" (click)="closeEditTenantModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Edit Tenant</h2>
+      <button class="modal-close" (click)="closeEditTenantModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveEditTenant()">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" [(ngModel)]="editTenantData.firstName" name="editFirstName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" [(ngModel)]="editTenantData.lastName" name="editLastName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" [(ngModel)]="editTenantData.email" name="editEmail" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" [(ngModel)]="editTenantData.phone" name="editPhone">
+          </div>
+
+          <div class="form-group">
+            <label>Property *</label>
+            <select [(ngModel)]="editTenantData.propertyId" name="editPropertyId" required>
+              <option value="">Select Property</option>
+              <option *ngFor="let prop of properties" [value]="prop.id">
+                {{ prop.reference }} - {{ prop.address }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeEditTenantModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Maintenance Request Modal -->
+<div class="modal-overlay" *ngIf="showAddMaintenanceModal" (click)="closeAddMaintenanceModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>New Maintenance Request</h2>
+      <button class="modal-close" (click)="closeAddMaintenanceModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveMaintenance()">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Property *</label>
+            <select [(ngModel)]="newMaintenance.propertyId" name="maintenancePropertyId" required>
+              <option value="">Select Property</option>
+              <option *ngFor="let prop of properties" [value]="prop.id">
+                {{ prop.reference }} - {{ prop.address }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Tenant *</label>
+            <select [(ngModel)]="newMaintenance.tenantId" name="maintenanceTenant" required>
+              <option value="">Select Tenant</option>
+              <option *ngFor="let tenant of tenants" [value]="tenant.id">
+                {{ tenant.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Issue Title *</label>
+            <input type="text" [(ngModel)]="newMaintenance.title" name="maintenanceTitle"
+              placeholder="e.g. Water Heater Repair" required>
+          </div>
+
+          <div class="form-group">
+            <label>Priority *</label>
+            <select [(ngModel)]="newMaintenance.priority" name="maintenancePriority" required>
+              <option [value]="MaintenancePriority.LOW">Low</option>
+              <option [value]="MaintenancePriority.MEDIUM">Medium</option>
+              <option [value]="MaintenancePriority.HIGH">High</option>
+              <option [value]="MaintenancePriority.URGENT">Urgent</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Description</label>
+            <textarea [(ngModel)]="newMaintenance.description" name="maintenanceDescription" rows="4"
+              placeholder="Describe the issue in detail..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeAddMaintenanceModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- View Maintenance Details Modal -->
+<div class="modal-overlay" *ngIf="showViewMaintenanceModal" (click)="closeViewMaintenanceModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Maintenance Request Details</h2>
+      <button class="modal-close" (click)="closeViewMaintenanceModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedMaintenance">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Request ID</span>
+          <span class="detail-value">#{{ selectedMaintenance.id }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Property</span>
+          <span class="detail-value">{{ selectedMaintenance.property }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Issue</span>
+          <span class="detail-value">{{ selectedMaintenance.title }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Tenant</span>
+          <span class="detail-value">{{ selectedMaintenance.tenant }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Date Reported</span>
+          <span class="detail-value">{{ selectedMaintenance.date | date:'fullDate' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Priority</span>
+          <span class="badge" [class.priority-high]="selectedMaintenance.priority === MaintenancePriority.HIGH"
+            [class.priority-medium]="selectedMaintenance.priority === MaintenancePriority.MEDIUM"
+            [class.priority-low]="selectedMaintenance.priority === MaintenancePriority.LOW">
+            {{ selectedMaintenance.priority }}
+          </span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Status</span>
+          <span class="badge" [class.status-warning]="selectedMaintenance.status === MaintenanceStatus.PENDING"
+            [class.status-info]="selectedMaintenance.status === MaintenanceStatus.IN_PROGRESS"
+            [class.status-success]="selectedMaintenance.status === MaintenanceStatus.COMPLETED">
+            {{ selectedMaintenance.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline danger"
+        (click)="deleteMaintenance(selectedMaintenance!.id)">Delete</button>
+      <button type="button" class="btn btn-outline" (click)="closeViewMaintenanceModal()">Close</button>
+      <button type="button" class="btn btn-primary" *ngIf="selectedMaintenance?.status === MaintenanceStatus.PENDING"
+        (click)="startMaintenance(selectedMaintenance!.id); closeViewMaintenanceModal()">Start Work</button>
+      <button type="button" class="btn btn-primary"
+        *ngIf="selectedMaintenance?.status === MaintenanceStatus.IN_PROGRESS"
+        (click)="completeMaintenance(selectedMaintenance!.id); closeViewMaintenanceModal()">Mark Complete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Property Modal -->
+<div class="modal-overlay" *ngIf="showEditPropertyModal" (click)="closeEditPropertyModal()">
+  <div class="modal-content large" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Edit Property</h2>
+      <button class="modal-close" (click)="closeEditPropertyModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveEditProperty()">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Property Reference</label>
+            <input type="text" [(ngModel)]="editPropertyData.reference" name="editPropReference" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>Property Type *</label>
+            <select [(ngModel)]="editPropertyData.type" name="editPropType" required>
+              <option value="Apartment">Apartment</option>
+              <option value="House">House</option>
+              <option value="Condo">Condo</option>
+              <option value="Villa">Villa</option>
+              <option value="Studio">Studio</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Address *</label>
+            <input type="text" [(ngModel)]="editPropertyData.address" name="editPropAddress" required>
+          </div>
+
+          <div class="form-group">
+            <label>City *</label>
+            <input type="text" [(ngModel)]="editPropertyData.city" name="editPropCity" required>
+          </div>
+
+          <div class="form-group">
+            <label>Bedrooms *</label>
+            <input type="number" [(ngModel)]="editPropertyData.beds" name="editPropBeds" min="0" required>
+          </div>
+
+          <div class="form-group">
+            <label>Bathrooms *</label>
+            <input type="number" [(ngModel)]="editPropertyData.bathroom" name="editPropBathroom" min="0" step="0.5"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label>Surface Area (m²) *</label>
+            <input type="number" [(ngModel)]="editPropertyData.surfaceArea" name="editPropSurface" min="1" required>
+          </div>
+
+          <div class="form-group">
+            <label>Rent Amount ($) *</label>
+            <input type="number" [(ngModel)]="editPropertyData.price" name="editPropPrice" min="0" required>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select [(ngModel)]="editPropertyData.status" name="editPropStatus">
+              <option value="AVAILABLE">Available</option>
+              <option value="RENTED">Rented</option>
+              <option value="MAINTENANCE">Maintenance</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeEditPropertyModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>

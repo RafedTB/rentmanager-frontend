@@ -1,0 +1,232 @@
+<div class="edit-profile-container">
+  <div class="edit-profile-header">
+    <div class="header-content">
+      <div class="avatar-section">
+        <div class="avatar-large">
+          {{ currentUser?.firstName?.[0] }}{{ currentUser?.lastName?.[0] }}
+        </div>
+        <span class="role-badge" [ngClass]="getRoleBadgeClass()">
+          {{ getRoleDisplayName() }}
+        </span>
+      </div>
+      <div class="header-text">
+        <h1 class="page-title">Edit Profile</h1>
+        <p class="page-subtitle">Update your personal information and account settings</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="edit-profile-content">
+    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" class="edit-form">
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-error">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Personal Information Section -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Personal Information
+        </h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName" class="form-label">
+              First Name <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <input
+                type="text"
+                id="firstName"
+                formControlName="firstName"
+                class="form-input"
+                placeholder="Enter your first name"
+                [class.error]="editProfileForm.get('firstName')?.invalid && editProfileForm.get('firstName')?.touched"
+              />
+            </div>
+            <span *ngIf="editProfileForm.get('firstName')?.invalid && editProfileForm.get('firstName')?.touched" class="error-message">
+              First name must be at least 2 characters
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName" class="form-label">
+              Last Name <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <input
+                type="text"
+                id="lastName"
+                formControlName="lastName"
+                class="form-input"
+                placeholder="Enter your last name"
+                [class.error]="editProfileForm.get('lastName')?.invalid && editProfileForm.get('lastName')?.touched"
+              />
+            </div>
+            <span *ngIf="editProfileForm.get('lastName')?.invalid && editProfileForm.get('lastName')?.touched" class="error-message">
+              Last name must be at least 2 characters
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">
+              Email <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-input"
+                placeholder="Enter your email"
+                [class.error]="editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.touched"
+              />
+            </div>
+            <span *ngIf="editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.touched" class="error-message">
+              Please enter a valid email address
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <input
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                class="form-input"
+                placeholder="Enter your phone number"
+                [class.error]="editProfileForm.get('phone')?.invalid && editProfileForm.get('phone')?.touched"
+              />
+            </div>
+            <span *ngIf="editProfileForm.get('phone')?.invalid && editProfileForm.get('phone')?.touched" class="error-message">
+              Please enter a valid phone number
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Section -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Change Password
+        </h2>
+        <p class="section-description">Leave blank if you don't want to change your password</p>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="currentPassword" class="form-label">Current Password</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input
+                type="password"
+                id="currentPassword"
+                formControlName="currentPassword"
+                class="form-input"
+                placeholder="Enter current password"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword" class="form-label">New Password</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input
+                type="password"
+                id="newPassword"
+                formControlName="newPassword"
+                class="form-input"
+                placeholder="Enter new password"
+                [class.error]="editProfileForm.get('newPassword')?.invalid && editProfileForm.get('newPassword')?.touched"
+              />
+            </div>
+            <span *ngIf="editProfileForm.get('newPassword')?.invalid && editProfileForm.get('newPassword')?.touched" class="error-message">
+              Password must be at least 6 characters
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input
+                type="password"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                class="form-input"
+                placeholder="Confirm new password"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" (click)="onCancel()" class="btn btn-secondary" [disabled]="isSubmitting">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || editProfileForm.invalid">
+          <svg *ngIf="!isSubmitting" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          <span *ngIf="isSubmitting" class="spinner"></span>
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<div class="about-page">
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="container">
+      <h1 class="page-title">About RentManager</h1>
+      <p class="page-subtitle">
+        We're on a mission to simplify property management and make renting easier for everyone.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="story-section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-image">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800" alt="Office">
+        </div>
+        <div class="story-content">
+          <h2 class="section-title">Our Story</h2>
+          <p class="story-text">
+            Founded in 2020, RentManager was born out of a simple observation: property management was too complicated. 
+            Landlords struggled with outdated tools, tenants had difficulty finding quality rentals, and the entire process 
+            was filled with unnecessary friction.
+          </p>
+          <p class="story-text">
+            We set out to change that. By combining modern technology with deep industry expertise, we created a platform 
+            that makes property management effortless. Today, we serve thousands of landlords and tenants across the country, 
+            helping them manage their properties with ease.
+          </p>
+          <p class="story-text">
+            Our journey is just beginning. We're constantly evolving, adding new features, and improving our platform based 
+            on feedback from our incredible community of users.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of stats">
+          <div class="stat-number">{{ stat.number }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Our Values</h2>
+        <p class="section-description">
+          These core values guide everything we do and shape our company culture.
+        </p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card" *ngFor="let value of values">
+          <div class="value-icon" [ngClass]="value.icon">
+            <svg *ngIf="value.icon === 'trust'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg *ngIf="value.icon === 'innovation'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="5" stroke-width="2"/>
+              <line x1="12" y1="1" x2="12" y2="3" stroke-width="2" stroke-linecap="round"/>
+              <line x1="12" y1="21" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2" stroke-linecap="round"/>
+              <line x1="1" y1="12" x2="3" y2="12" stroke-width="2" stroke-linecap="round"/>
+              <line x1="21" y1="12" x2="23" y2="12" stroke-width="2" stroke-linecap="round"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg *ngIf="value.icon === 'support'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="9" cy="7" r="4" stroke-width="2"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="2" stroke-linecap="round"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg *ngIf="value.icon === 'quality'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="value-title">{{ value.title }}</h3>
+          <p class="value-description">{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Meet Our Team</h2>
+        <p class="section-description">
+          Passionate professionals dedicated to making property management simple.
+        </p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card" *ngFor="let member of team">
+          <div class="team-image">
+            <img [src]="member.image" [alt]="member.name">
+          </div>
+          <div class="team-info">
+            <h3 class="team-name">{{ member.name }}</h3>
+            <p class="team-role">{{ member.role }}</p>
+            <p class="team-bio">{{ member.bio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Get Started?</h2>
+        <p class="cta-description">
+          Join thousands of landlords and tenants who trust RentManager
+        </p>
+        <div class="cta-buttons">
+          <a routerLink="/register" class="btn btn-primary btn-large">
+            Get Started Free
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a routerLink="/contact" class="btn btn-outline btn-large">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

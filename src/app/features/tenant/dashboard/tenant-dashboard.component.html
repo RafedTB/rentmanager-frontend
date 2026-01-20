@@ -1,0 +1,476 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <h1>Welcome back, {{ tenantName }}!</h1>
+      <p class="subtitle">Here's what's happening with your rental</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" routerLink="/profile">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        Profile
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card primary">
+      <div class="stat-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Next Rent Due</p>
+        <h3 class="stat-value">${{ stats.nextPayment.toLocaleString() }}</h3>
+        <p class="stat-detail">{{ stats.nextPaymentDate | date:'MMM d, yyyy' }}</p>
+        <p class="stat-info">{{ stats.daysUntilRent }} days remaining</p>
+      </div>
+    </div>
+
+    <div class="stat-card success">
+      <div class="stat-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Total Paid This Year</p>
+        <h3 class="stat-value">${{ stats.totalPaid.toLocaleString() }}</h3>
+        <p class="stat-detail">All payments</p>
+      </div>
+    </div>
+
+    <div class="stat-card warning">
+      <div class="stat-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Open Requests</p>
+        <h3 class="stat-value">{{ stats.openRequests }}</h3>
+        <p class="stat-detail">Maintenance tickets</p>
+      </div>
+    </div>
+
+    <div class="stat-card info">
+      <div class="stat-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Current Property</p>
+        <h3 class="stat-value">{{ currentProperty.reference }}</h3>
+        <p class="stat-detail">{{ currentProperty.address }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-section">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+      <button class="action-card" (click)="openPaymentModal()">
+        <div class="action-icon primary">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <h3>Pay Rent</h3>
+          <p>Make your monthly payment</p>
+        </div>
+      </button>
+
+      <button class="action-card" (click)="openMaintenanceModal()">
+        <div class="action-icon success">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <h3>Request Maintenance</h3>
+          <p>Report an issue</p>
+        </div>
+      </button>
+
+      <button class="action-card" routerLink="/properties">
+        <div class="action-icon warning">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <h3>Browse Properties</h3>
+          <p>Find a new place</p>
+        </div>
+      </button>
+
+      <button class="action-card" (click)="openContactModal()">
+        <div class="action-icon info">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="action-content">
+          <h3>Contact Landlord</h3>
+          <p>Send a message</p>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+    <!-- Recent Payments -->
+    <div class="content-card">
+      <div class="card-header">
+        <h2 class="card-title">Recent Payments</h2>
+        <a href="#" class="view-all">View All</a>
+      </div>
+      <div class="payments-list">
+        <div class="payment-item" *ngFor="let payment of payments">
+          <div class="payment-icon" [ngClass]="getStatusClass(payment.status)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div class="payment-details">
+            <p class="payment-description">{{ payment.description }}</p>
+            <p class="payment-date">{{ payment.date | date:'MMM d, yyyy' }}</p>
+          </div>
+          <div class="payment-amount">
+            <p class="amount">${{ payment.amount.toLocaleString() }}</p>
+            <span class="status-badge" [ngClass]="getStatusClass(payment.status)">
+              {{ payment.status }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maintenance Requests -->
+    <div class="content-card">
+      <div class="card-header">
+        <h2 class="card-title">Maintenance Requests</h2>
+        <a href="#" class="view-all">View All</a>
+      </div>
+      <div class="maintenance-list">
+        <div class="maintenance-item" *ngFor="let request of maintenanceRequests">
+          <div class="maintenance-header">
+            <h4 class="maintenance-title">{{ request.title }}</h4>
+            <span class="priority-badge" [ngClass]="getPriorityClass(request.priority)">
+              {{ request.priority }}
+            </span>
+          </div>
+          <div class="maintenance-footer">
+            <p class="maintenance-date">{{ request.date | date:'MMM d, yyyy' }}</p>
+            <span class="status-badge" [ngClass]="getStatusClass(request.status)">
+              {{ request.status }}
+            </span>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="maintenanceRequests.length === 0">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <p>No active maintenance requests</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property Info -->
+  <div class="property-info-card">
+    <div class="property-header">
+      <h2 class="section-title">Your Current Property</h2>
+    </div>
+    <div class="property-details">
+      <div class="property-detail">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <div>
+          <p class="detail-label">Address</p>
+          <p class="detail-value">{{ currentProperty.address }}</p>
+        </div>
+      </div>
+      <div class="property-detail">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <div>
+          <p class="detail-label">Monthly Rent</p>
+          <p class="detail-value">${{ currentProperty.rentAmount.toLocaleString() }}</p>
+        </div>
+      </div>
+      <div class="property-detail">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <div>
+          <p class="detail-label">Lease Ends</p>
+          <p class="detail-value">{{ currentProperty.leaseEnd | date:'MMM d, yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" *ngIf="showPaymentModal" (click)="closePaymentModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Pay Rent</h2>
+      <button class="close-btn" (click)="closePaymentModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="payment-summary">
+        <div class="summary-row">
+          <span>Property</span>
+          <span>{{ currentProperty.address }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Due Date</span>
+          <span>{{ stats.nextPaymentDate | date:'MMM d, yyyy' }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Amount Due</span>
+          <span>${{ paymentForm.amount.toLocaleString() }}</span>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Payment Method</h3>
+        <div class="payment-methods">
+          <label class="payment-method" [class.selected]="paymentForm.paymentMethod === 'card'">
+            <input type="radio" name="paymentMethod" value="card" [(ngModel)]="paymentForm.paymentMethod">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <span>Credit/Debit Card</span>
+          </label>
+          <label class="payment-method" [class.selected]="paymentForm.paymentMethod === 'bank'">
+            <input type="radio" name="paymentMethod" value="bank" [(ngModel)]="paymentForm.paymentMethod">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
+            </svg>
+            <span>Bank Transfer</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section" *ngIf="paymentForm.paymentMethod === 'card'">
+        <h3>Card Details</h3>
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" placeholder="1234 5678 9012 3456" [(ngModel)]="paymentForm.cardNumber" maxlength="19">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM/YY" [(ngModel)]="paymentForm.expiryDate" maxlength="5">
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input type="text" placeholder="123" [(ngModel)]="paymentForm.cvv" maxlength="4">
+          </div>
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="paymentForm.saveCard">
+          <span>Save card for future payments</span>
+        </label>
+      </div>
+
+      <div class="form-section" *ngIf="paymentForm.paymentMethod === 'bank'">
+        <div class="bank-info">
+          <p><strong>Bank Name:</strong> Chase Bank</p>
+          <p><strong>Account Name:</strong> RentManager Inc.</p>
+          <p><strong>Account Number:</strong> 1234567890</p>
+          <p><strong>Routing Number:</strong> 021000021</p>
+          <p class="note">Please include your property reference ({{ currentProperty.reference }}) in the transfer description.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closePaymentModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="processPayment()" [disabled]="isProcessingPayment">
+        <span *ngIf="!isProcessingPayment">Pay ${{ paymentForm.amount.toLocaleString() }}</span>
+        <span *ngIf="isProcessingPayment" class="loading-spinner"></span>
+        <span *ngIf="isProcessingPayment">Processing...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Maintenance Request Modal -->
+<div class="modal-overlay" *ngIf="showMaintenanceModal" (click)="closeMaintenanceModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Request Maintenance</h2>
+      <button class="close-btn" (click)="closeMaintenanceModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Issue Title *</label>
+        <input type="text" placeholder="Brief description of the issue" [(ngModel)]="maintenanceForm.title">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category *</label>
+          <select [(ngModel)]="maintenanceForm.category">
+            <option value="plumbing">Plumbing</option>
+            <option value="electrical">Electrical</option>
+            <option value="hvac">HVAC / Heating & Cooling</option>
+            <option value="appliances">Appliances</option>
+            <option value="structural">Structural</option>
+            <option value="pest">Pest Control</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Priority *</label>
+          <select [(ngModel)]="maintenanceForm.priority">
+            <option value="low">Low - Not urgent</option>
+            <option value="medium">Medium - Needs attention</option>
+            <option value="high">High - Urgent issue</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Detailed Description *</label>
+        <textarea rows="4" placeholder="Please describe the issue in detail..." [(ngModel)]="maintenanceForm.description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Preferred Service Date (Optional)</label>
+        <input type="date" [(ngModel)]="maintenanceForm.preferredDate">
+      </div>
+
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="maintenanceForm.allowEntry">
+        <span>I authorize entry to my unit for repairs when I'm not home</span>
+      </label>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeMaintenanceModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="submitMaintenanceRequest()" 
+              [disabled]="isSubmittingMaintenance || !maintenanceForm.title || !maintenanceForm.description">
+        <span *ngIf="!isSubmittingMaintenance">Submit Request</span>
+        <span *ngIf="isSubmittingMaintenance" class="loading-spinner"></span>
+        <span *ngIf="isSubmittingMaintenance">Submitting...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Landlord Modal -->
+<div class="modal-overlay" *ngIf="showContactModal" (click)="closeContactModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Contact Landlord</h2>
+      <button class="close-btn" (click)="closeContactModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="landlord-info">
+        <div class="landlord-avatar">
+          {{ currentProperty.landlordName.split(' ')[0][0] }}{{ currentProperty.landlordName.split(' ')[1][0] }}
+        </div>
+        <div class="landlord-details">
+          <h3>{{ currentProperty.landlordName }}</h3>
+          <p>{{ currentProperty.landlordEmail }}</p>
+          <p>{{ currentProperty.landlordPhone }}</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Subject *</label>
+        <input type="text" placeholder="What is this about?" [(ngModel)]="contactForm.subject">
+      </div>
+
+      <div class="form-group">
+        <label>Urgency</label>
+        <select [(ngModel)]="contactForm.urgency">
+          <option value="low">Low - No rush</option>
+          <option value="normal">Normal - When convenient</option>
+          <option value="high">High - Please respond soon</option>
+          <option value="urgent">Urgent - Emergency</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Message *</label>
+        <textarea rows="5" placeholder="Type your message here..." [(ngModel)]="contactForm.message"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeContactModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="sendMessage()" 
+              [disabled]="isSendingMessage || !contactForm.subject || !contactForm.message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" *ngIf="!isSendingMessage">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        <span *ngIf="!isSendingMessage">Send Message</span>
+        <span *ngIf="isSendingMessage" class="loading-spinner"></span>
+        <span *ngIf="isSendingMessage">Sending...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" *ngIf="showSuccessModal" (click)="closeSuccessModal()">
+  <div class="modal success-modal" (click)="$event.stopPropagation()">
+    <div class="success-content">
+      <div class="success-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <h2>Success!</h2>
+      <p>{{ successMessage }}</p>
+      <button class="btn btn-primary" (click)="closeSuccessModal()">Done</button>
+    </div>
+  </div>
+</div>
